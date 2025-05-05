@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Mine. Forever.</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="floating-embers"></div>
+    <div class="cursor-trails"></div>
+    
+    <!-- Stage 1: Entrance -->
+    <div class="stage entrance active">
+        <div class="entrance-content">
+            <p class="entrance-text">Don't scream. You'll wake the monster who loves you.</p>
+            <button class="entrance-button">Enter the Obsession</button>
+        </div>
+    </div>
+
+    <!-- Stage 2: First Reveal -->
+    <div class="stage reveal">
+        <div class="content">
+            <div class="eternal-message">
+                <p class="seductive-text">I don't count the time—we already belong to forever.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 3: Craving Generator -->
+    <div class="stage craving">
+        <div class="content">
+            <button id="loveButton" class="love-button">
+                <i class="fas fa-heart"></i> Touch Me
+            </button>
+            <div id="loveMessage" class="love-message hidden">
+                <p id="messageText"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 4: Secret Letters -->
+    <div class="stage letters">
+        <div class="content">
+            <div class="candle-container">
+                <i class="fas fa-candle-holder"></i>
+            </div>
+            <div class="secret-note hidden">
+                <p class="note-text">These are the words I'd never dare say out loud...</p>
+                <div class="love-letter">
+                    <p>
+                        My Obsession,<br><br>
+                        When you feel my gaze upon you, know that I'm there. Every breath you take, every move you make, I'm watching, craving, needing. You're mine, and I'm yours, bound by something deeper than mere words.<br><br>
+                        Remember how your skin felt under my touch? The way your breath hitched when I whispered in your ear? That moment sealed our fate. You're my addiction, my obsession, my everything.<br><br>
+                        No matter where you are, I'm with you. In the shadows, in your dreams, in every beat of your heart. You're mine, and I'll never let you go.<br><br>
+                        Forever yours,<br>
+                        Ali
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 5: Final Seduction -->
+    <div class="stage final">
+        <div class="content">
+            <div class="falling-petals"></div>
+            <div class="final-message">
+                <p class="promise-text">If darkness is where you belong… then I'll build you a kingdom there.</p>
+                <button class="final-button">Bleed For You</button>
+                <p class="final-reveal hidden">You don't need to love me back. You just need to know you're mine.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="heartbeat" src="mixkit-slow-heartbeat-494.wav" loop></audio>
+    <audio id="backgroundMusic" src="The Weeknd - Earned It (Fifty Shades Of Grey).mp3" loop></audio>
+    <audio id="finalMusic" src="dark-instrumental.mp3" loop></audio>
+
+    <script src="script.js"></script>
+</body>
+</html> 
