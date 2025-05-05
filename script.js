@@ -48,6 +48,17 @@ function transitionToStage(stageNumber) {
         
         const audio = audioElements[stageNumber];
         if (audio) {
+            // Set volume based on stage
+            switch(stageNumber) {
+                case 2:
+                    audio.volume = 0.2; // Soft heartbeat
+                    break;
+                case 3:
+                    audio.volume = 0.3; // Background music
+                    break;
+                default:
+                    audio.volume = 0.5;
+            }
             audio.play().catch(error => {
                 console.log('Audio playback failed:', error);
             });
@@ -94,10 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize stage 2 elements
     const seductiveText = document.querySelector('.seductive-text');
     if (seductiveText) {
+        // Add initial animation class
+        seductiveText.classList.add('fade-in');
+        
+        // Wait for animation to complete before setting up the next transition
         seductiveText.addEventListener('animationend', () => {
             setTimeout(() => {
                 transitionToStage(3);
-            }, 3000);
+            }, 5000); // Give more time to appreciate the message
         });
     }
 
