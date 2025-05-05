@@ -73,7 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start background music immediately
     const backgroundMusic = document.getElementById('backgroundMusic');
     if (backgroundMusic) {
-        backgroundMusic.volume = 0.3; // Set volume to 30%
+        backgroundMusic.volume = 0.2; // Lower volume for better ambiance
+        backgroundMusic.loop = true;
         backgroundMusic.play().catch(error => {
             console.log('Background music playback failed:', error);
         });
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Play initial whisper
     const whisper = document.getElementById('whisper');
     if (whisper) {
-        whisper.volume = 0.5; // Set volume to 50%
+        whisper.volume = 0.3;
         whisper.play().catch(error => {
             console.log('Initial whisper playback failed:', error);
         });
@@ -98,6 +99,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const entranceButton = document.querySelector('.entrance-button');
     if (entranceButton) {
         entranceButton.addEventListener('click', () => {
+            // Fade out background music
+            if (backgroundMusic) {
+                const fadeOut = setInterval(() => {
+                    if (backgroundMusic.volume > 0.1) {
+                        backgroundMusic.volume -= 0.1;
+                    } else {
+                        clearInterval(fadeOut);
+                        backgroundMusic.pause();
+                    }
+                }, 100);
+            }
             transitionToStage(2);
         });
     }
@@ -122,18 +134,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const loveMessage = document.getElementById('loveMessage');
 
     if (loveButton && messageText && loveMessage) {
+        // Update button text
+        loveButton.textContent = 'Touch Me';
+        
         loveButton.addEventListener('click', () => {
+            // Play whisper sound
             const whisper = document.getElementById('touchWhisper');
             if (whisper) {
-                whisper.volume = 0.5; // Set volume to 50%
+                whisper.volume = 0.3;
                 whisper.currentTime = 0;
                 whisper.play().catch(error => {
                     console.log('Whisper playback failed:', error);
                 });
             }
 
+            // Get random message
             const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
-            typeWriter(messageText, randomMessage);
+            
+            // Clear previous message
+            messageText.textContent = '';
+            loveMessage.classList.remove('hidden');
+            
+            // Add pulse effect
+            loveMessage.classList.add('pulse');
+            setTimeout(() => {
+                loveMessage.classList.remove('pulse');
+            }, 500);
+            
+            // Typewriter effect
+            let i = 0;
+            const speed = 50; // typing speed in milliseconds
+            
+            function typeWriter() {
+                if (i < randomMessage.length) {
+                    messageText.textContent += randomMessage.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
+            }
+            
+            typeWriter();
             
             reasonsGiven++;
             
@@ -169,25 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-// Typewriter Effect
-function typeWriter(element, text) {
-    element.textContent = '';
-    loveMessage.classList.remove('hidden');
-    
-    let i = 0;
-    const speed = 50;
-    
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    
-    type();
-}
 
 // Cursor Trail Effect
 document.addEventListener('mousemove', (e) => {
