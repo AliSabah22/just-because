@@ -48,81 +48,111 @@ function transitionToStage(stageNumber) {
         
         const audio = audioElements[stageNumber];
         if (audio) {
-            // Only play audio if the user has interacted with the page
-            if (document.documentElement.hasAttribute('data-user-interacted')) {
-                audio.play().catch(error => {
-                    console.log('Audio playback failed:', error);
-                });
-            }
+            audio.play().catch(error => {
+                console.log('Audio playback failed:', error);
+            });
         }
     }
     
     currentStage = stageNumber;
 }
 
-// Stage 1: Entrance
-document.querySelector('.entrance-button')?.addEventListener('click', () => {
-    // Mark that user has interacted with the page
-    document.documentElement.setAttribute('data-user-interacted', 'true');
-    transitionToStage(2);
-});
-
-// Stage 2: First Reveal
-document.querySelector('.seductive-text')?.addEventListener('animationend', () => {
-    setTimeout(() => {
-        transitionToStage(3);
-    }, 3000);
-});
-
-// Stage 3: Craving Generator
-const loveButton = document.getElementById('loveButton');
-const messageText = document.getElementById('messageText');
-const loveMessage = document.getElementById('loveMessage');
-
-loveButton?.addEventListener('click', () => {
-    // Play whisper sound
-    const whisper = document.getElementById('touchWhisper');
-    if (whisper) {
-        whisper.currentTime = 0;
-        whisper.play().catch(error => {
-            console.log('Whisper playback failed:', error);
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    // Start background music immediately
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    if (backgroundMusic) {
+        backgroundMusic.volume = 0.3; // Set volume to 30%
+        backgroundMusic.play().catch(error => {
+            console.log('Background music playback failed:', error);
         });
     }
 
-    // Show new message
-    const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
-    typeWriter(messageText, randomMessage);
-    
-    // Increment reasons counter
-    reasonsGiven++;
-    
-    // Check if we should transition to next stage
-    if (reasonsGiven >= 3) {
-        setTimeout(() => {
-            transitionToStage(4);
-        }, 2000);
+    // Create falling petals if the container exists
+    const petalsContainer = document.querySelector('.falling-petals');
+    if (petalsContainer) {
+        createFallingPetals();
     }
-});
 
-// Stage 4: Secret Letters
-const candle = document.querySelector('.candle-container');
-const secretNote = document.querySelector('.secret-note');
+    // Play initial whisper
+    const whisper = document.getElementById('whisper');
+    if (whisper) {
+        whisper.volume = 0.5; // Set volume to 50%
+        whisper.play().catch(error => {
+            console.log('Initial whisper playback failed:', error);
+        });
+    }
 
-candle?.addEventListener('click', () => {
-    // Add glowing effect to candle
-    candle.classList.add('glowing');
-    secretNote?.classList.remove('hidden');
-    setTimeout(() => {
-        transitionToStage(5);
-    }, 5000);
-});
+    // Initialize stage 1 elements
+    const entranceButton = document.querySelector('.entrance-button');
+    if (entranceButton) {
+        entranceButton.addEventListener('click', () => {
+            transitionToStage(2);
+        });
+    }
 
-// Stage 5: Final Seduction
-const finalButton = document.querySelector('.final-button');
-const finalReveal = document.querySelector('.final-reveal');
+    // Initialize stage 2 elements
+    const seductiveText = document.querySelector('.seductive-text');
+    if (seductiveText) {
+        seductiveText.addEventListener('animationend', () => {
+            setTimeout(() => {
+                transitionToStage(3);
+            }, 3000);
+        });
+    }
 
-finalButton?.addEventListener('click', () => {
-    finalReveal?.classList.remove('hidden');
+    // Initialize stage 3 elements
+    const loveButton = document.getElementById('loveButton');
+    const messageText = document.getElementById('messageText');
+    const loveMessage = document.getElementById('loveMessage');
+
+    if (loveButton && messageText && loveMessage) {
+        loveButton.addEventListener('click', () => {
+            const whisper = document.getElementById('touchWhisper');
+            if (whisper) {
+                whisper.volume = 0.5; // Set volume to 50%
+                whisper.currentTime = 0;
+                whisper.play().catch(error => {
+                    console.log('Whisper playback failed:', error);
+                });
+            }
+
+            const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            typeWriter(messageText, randomMessage);
+            
+            reasonsGiven++;
+            
+            if (reasonsGiven >= 3) {
+                setTimeout(() => {
+                    transitionToStage(4);
+                }, 2000);
+            }
+        });
+    }
+
+    // Initialize stage 4 elements
+    const candle = document.querySelector('.candle-container');
+    const secretNote = document.querySelector('.secret-note');
+
+    if (candle && secretNote) {
+        candle.addEventListener('click', () => {
+            candle.classList.add('glowing');
+            secretNote.classList.remove('hidden');
+            setTimeout(() => {
+                transitionToStage(5);
+            }, 5000);
+        });
+    }
+
+    // Initialize stage 5 elements
+    const finalButton = document.querySelector('.final-button');
+    const finalReveal = document.querySelector('.final-reveal');
+
+    if (finalButton && finalReveal) {
+        finalButton.addEventListener('click', () => {
+            finalReveal.classList.remove('hidden');
+        });
+    }
 });
 
 // Typewriter Effect
@@ -185,92 +215,4 @@ function createFallingPetals() {
         petal.style.animationDelay = Math.random() * 5 + 's';
         petalsContainer.appendChild(petal);
     }
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    // Create falling petals if the container exists
-    const petalsContainer = document.querySelector('.falling-petals');
-    if (petalsContainer) {
-        createFallingPetals();
-    }
-
-    // Play initial whisper if it exists
-    const whisper = document.getElementById('whisper');
-    if (whisper) {
-        whisper.play().catch(error => {
-            console.log('Initial whisper playback failed:', error);
-        });
-    }
-
-    // Initialize stage 1 elements
-    const entranceButton = document.querySelector('.entrance-button');
-    if (entranceButton) {
-        entranceButton.addEventListener('click', () => {
-            document.documentElement.setAttribute('data-user-interacted', 'true');
-            transitionToStage(2);
-        });
-    }
-
-    // Initialize stage 2 elements
-    const seductiveText = document.querySelector('.seductive-text');
-    if (seductiveText) {
-        seductiveText.addEventListener('animationend', () => {
-            setTimeout(() => {
-                transitionToStage(3);
-            }, 3000);
-        });
-    }
-
-    // Initialize stage 3 elements
-    const loveButton = document.getElementById('loveButton');
-    const messageText = document.getElementById('messageText');
-    const loveMessage = document.getElementById('loveMessage');
-
-    if (loveButton && messageText && loveMessage) {
-        loveButton.addEventListener('click', () => {
-            const whisper = document.getElementById('touchWhisper');
-            if (whisper) {
-                whisper.currentTime = 0;
-                whisper.play().catch(error => {
-                    console.log('Whisper playback failed:', error);
-                });
-            }
-
-            const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
-            typeWriter(messageText, randomMessage);
-            
-            reasonsGiven++;
-            
-            if (reasonsGiven >= 3) {
-                setTimeout(() => {
-                    transitionToStage(4);
-                }, 2000);
-            }
-        });
-    }
-
-    // Initialize stage 4 elements
-    const candle = document.querySelector('.candle-container');
-    const secretNote = document.querySelector('.secret-note');
-
-    if (candle && secretNote) {
-        candle.addEventListener('click', () => {
-            candle.classList.add('glowing');
-            secretNote.classList.remove('hidden');
-            setTimeout(() => {
-                transitionToStage(5);
-            }, 5000);
-        });
-    }
-
-    // Initialize stage 5 elements
-    const finalButton = document.querySelector('.final-button');
-    const finalReveal = document.querySelector('.final-reveal');
-
-    if (finalButton && finalReveal) {
-        finalButton.addEventListener('click', () => {
-            finalReveal.classList.remove('hidden');
-        });
-    }
-}); 
+} 
