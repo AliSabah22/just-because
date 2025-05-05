@@ -189,12 +189,88 @@ function createFallingPetals() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    createFallingPetals();
-    // Play initial whisper
+    // Create falling petals if the container exists
+    const petalsContainer = document.querySelector('.falling-petals');
+    if (petalsContainer) {
+        createFallingPetals();
+    }
+
+    // Play initial whisper if it exists
     const whisper = document.getElementById('whisper');
     if (whisper) {
         whisper.play().catch(error => {
             console.log('Initial whisper playback failed:', error);
+        });
+    }
+
+    // Initialize stage 1 elements
+    const entranceButton = document.querySelector('.entrance-button');
+    if (entranceButton) {
+        entranceButton.addEventListener('click', () => {
+            document.documentElement.setAttribute('data-user-interacted', 'true');
+            transitionToStage(2);
+        });
+    }
+
+    // Initialize stage 2 elements
+    const seductiveText = document.querySelector('.seductive-text');
+    if (seductiveText) {
+        seductiveText.addEventListener('animationend', () => {
+            setTimeout(() => {
+                transitionToStage(3);
+            }, 3000);
+        });
+    }
+
+    // Initialize stage 3 elements
+    const loveButton = document.getElementById('loveButton');
+    const messageText = document.getElementById('messageText');
+    const loveMessage = document.getElementById('loveMessage');
+
+    if (loveButton && messageText && loveMessage) {
+        loveButton.addEventListener('click', () => {
+            const whisper = document.getElementById('touchWhisper');
+            if (whisper) {
+                whisper.currentTime = 0;
+                whisper.play().catch(error => {
+                    console.log('Whisper playback failed:', error);
+                });
+            }
+
+            const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            typeWriter(messageText, randomMessage);
+            
+            reasonsGiven++;
+            
+            if (reasonsGiven >= 3) {
+                setTimeout(() => {
+                    transitionToStage(4);
+                }, 2000);
+            }
+        });
+    }
+
+    // Initialize stage 4 elements
+    const candle = document.querySelector('.candle-container');
+    const secretNote = document.querySelector('.secret-note');
+
+    if (candle && secretNote) {
+        candle.addEventListener('click', () => {
+            candle.classList.add('glowing');
+            secretNote.classList.remove('hidden');
+            setTimeout(() => {
+                transitionToStage(5);
+            }, 5000);
+        });
+    }
+
+    // Initialize stage 5 elements
+    const finalButton = document.querySelector('.final-button');
+    const finalReveal = document.querySelector('.final-reveal');
+
+    if (finalButton && finalReveal) {
+        finalButton.addEventListener('click', () => {
+            finalReveal.classList.remove('hidden');
         });
     }
 }); 
