@@ -90,7 +90,7 @@ body {
     width: 100%;
     height: 100%;
     background: radial-gradient(circle at center, rgba(255, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
-    animation: glowPulse 4s ease-in-out infinite;
+    animation: sensualPulse 4s ease-in-out infinite;
     z-index: 1;
 }
 
@@ -118,21 +118,6 @@ body {
     letter-spacing: 1px;
 }
 
-@keyframes glowPulse {
-    0% {
-        opacity: 0.3;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.5;
-        transform: scale(1.1);
-    }
-    100% {
-        opacity: 0.3;
-        transform: scale(1);
-    }
-}
-
 @keyframes sensualPulse {
     0% {
         text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
@@ -145,6 +130,17 @@ body {
     100% {
         text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
         transform: scale(1);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -446,17 +442,6 @@ body {
     to {
         width: 100%;
         opacity: 1;
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
 

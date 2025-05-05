@@ -38,30 +38,28 @@ function transitionToStage(stageNumber) {
     if (nextStageElement) {
         nextStageElement.classList.add('active');
         
-        // Play appropriate audio for each stage
-        const audioElements = {
-            1: document.getElementById('whisper'),
-            2: document.getElementById('heartbeat'),
-            3: document.getElementById('backgroundMusic'),
-            5: document.getElementById('finalMusic')
-        };
+        // Handle audio transitions
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const heartbeat = document.getElementById('heartbeat');
         
-        const audio = audioElements[stageNumber];
-        if (audio) {
-            // Set volume based on stage
-            switch(stageNumber) {
-                case 2:
-                    audio.volume = 0.2; // Soft heartbeat
-                    break;
-                case 3:
-                    audio.volume = 0.3; // Background music
-                    break;
-                default:
-                    audio.volume = 0.5;
-            }
-            audio.play().catch(error => {
-                console.log('Audio playback failed:', error);
-            });
+        switch(stageNumber) {
+            case 2: // First Reveal stage
+                if (heartbeat) {
+                    heartbeat.volume = 0.2;
+                    heartbeat.loop = true;
+                    heartbeat.play().catch(console.log);
+                }
+                break;
+            case 3: // Craving Generator
+                if (backgroundMusic) {
+                    backgroundMusic.volume = 0.3;
+                    backgroundMusic.loop = true;
+                    backgroundMusic.play().catch(console.log);
+                }
+                if (heartbeat) {
+                    heartbeat.pause();
+                }
+                break;
         }
     }
     
@@ -106,14 +104,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize stage 1 elements
     const entranceButton = document.querySelector('.entrance-button');
     if (entranceButton) {
-        // Set up audio to play when the entrance button is clicked
         entranceButton.addEventListener('click', () => {
-            setupAudioPlayback();
+            // Play initial whisper
+            const whisper = document.getElementById('whisper');
+            if (whisper) {
+                whisper.volume = 0.3;
+                whisper.loop = false;
+                whisper.play().catch(console.log);
+            }
+            
+            // Transition to First Reveal stage
             transitionToStage(2);
         });
     }
 
-    // Initialize stage 2 elements
+    // Initialize stage 2 elements (First Reveal)
     const seductiveText = document.querySelector('.seductive-text');
     if (seductiveText) {
         // Add initial animation class
