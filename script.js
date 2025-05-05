@@ -70,29 +70,41 @@ function transitionToStage(stageNumber) {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    // Start background music immediately
+    // Initialize audio elements
     const backgroundMusic = document.getElementById('backgroundMusic');
-    if (backgroundMusic) {
-        backgroundMusic.volume = 0.2; // Lower volume for better ambiance
-        backgroundMusic.loop = true;
-        backgroundMusic.play().catch(error => {
-            console.log('Background music playback failed:', error);
-        });
+    const whisper = document.getElementById('whisper');
+    
+    // Function to handle audio playback
+    function playAudio(audioElement, volume = 0.2) {
+        if (audioElement) {
+            audioElement.volume = volume;
+            audioElement.loop = true;
+            
+            // Try to play audio
+            const playPromise = audioElement.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Audio playback failed:', error);
+                    // If autoplay is blocked, wait for user interaction
+                    document.addEventListener('click', () => {
+                        audioElement.play().catch(e => console.log('Audio still failed:', e));
+                    }, { once: true });
+                });
+            }
+        }
     }
+
+    // Start background music
+    playAudio(backgroundMusic, 0.2);
+    
+    // Play initial whisper
+    playAudio(whisper, 0.3);
 
     // Create falling petals if the container exists
     const petalsContainer = document.querySelector('.falling-petals');
     if (petalsContainer) {
         createFallingPetals();
-    }
-
-    // Play initial whisper
-    const whisper = document.getElementById('whisper');
-    if (whisper) {
-        whisper.volume = 0.3;
-        whisper.play().catch(error => {
-            console.log('Initial whisper playback failed:', error);
-        });
     }
 
     // Initialize stage 1 elements
