@@ -79,27 +79,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (audioElement) {
             audioElement.volume = volume;
             audioElement.loop = true;
-            
-            // Try to play audio
-            const playPromise = audioElement.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log('Audio playback failed:', error);
-                    // If autoplay is blocked, wait for user interaction
-                    document.addEventListener('click', () => {
-                        audioElement.play().catch(e => console.log('Audio still failed:', e));
-                    }, { once: true });
-                });
-            }
+            return audioElement.play();
         }
+        return Promise.reject('Audio element not found');
     }
 
-    // Start background music
-    playAudio(backgroundMusic, 0.2);
-    
-    // Play initial whisper
-    playAudio(whisper, 0.3);
+    // Set up audio to play on first interaction
+    function setupAudioPlayback() {
+        // Start background music (will play continuously)
+        playAudio(backgroundMusic, 0.2).catch(console.log);
+        
+        // Play initial whisper (only once)
+        if (whisper) {
+            whisper.volume = 0.3;
+            whisper.loop = false; // Ensure whisper doesn't loop
+            whisper.play().catch(console.log);
+        }
+    }
 
     // Create falling petals if the container exists
     const petalsContainer = document.querySelector('.falling-petals');
@@ -110,18 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize stage 1 elements
     const entranceButton = document.querySelector('.entrance-button');
     if (entranceButton) {
+        // Set up audio to play when the entrance button is clicked
         entranceButton.addEventListener('click', () => {
-            // Fade out background music
-            if (backgroundMusic) {
-                const fadeOut = setInterval(() => {
-                    if (backgroundMusic.volume > 0.1) {
-                        backgroundMusic.volume -= 0.1;
-                    } else {
-                        clearInterval(fadeOut);
-                        backgroundMusic.pause();
-                    }
-                }, 100);
-            }
+            setupAudioPlayback();
             transitionToStage(2);
         });
     }
@@ -154,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const whisper = document.getElementById('touchWhisper');
             if (whisper) {
                 whisper.volume = 0.3;
+                whisper.loop = false; // Ensure whisper doesn't loop
                 whisper.currentTime = 0;
                 whisper.play().catch(error => {
                     console.log('Whisper playback failed:', error);
