@@ -40,6 +40,7 @@ function transitionToStage(stageNumber) {
         
         // Play appropriate audio for each stage
         const audioElements = {
+            1: document.getElementById('whisper'),
             2: document.getElementById('heartbeat'),
             3: document.getElementById('backgroundMusic'),
             5: document.getElementById('finalMusic')
@@ -79,6 +80,15 @@ const messageText = document.getElementById('messageText');
 const loveMessage = document.getElementById('loveMessage');
 
 loveButton?.addEventListener('click', () => {
+    // Play whisper sound
+    const whisper = document.getElementById('touchWhisper');
+    if (whisper) {
+        whisper.currentTime = 0;
+        whisper.play().catch(error => {
+            console.log('Whisper playback failed:', error);
+        });
+    }
+
     // Show new message
     const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
     typeWriter(messageText, randomMessage);
@@ -99,6 +109,8 @@ const candle = document.querySelector('.candle-container');
 const secretNote = document.querySelector('.secret-note');
 
 candle?.addEventListener('click', () => {
+    // Add glowing effect to candle
+    candle.classList.add('glowing');
     secretNote?.classList.remove('hidden');
     setTimeout(() => {
         transitionToStage(5);
@@ -178,4 +190,11 @@ function createFallingPetals() {
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     createFallingPetals();
+    // Play initial whisper
+    const whisper = document.getElementById('whisper');
+    if (whisper) {
+        whisper.play().catch(error => {
+            console.log('Initial whisper playback failed:', error);
+        });
+    }
 }); 

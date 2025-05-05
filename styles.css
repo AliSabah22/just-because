@@ -134,7 +134,12 @@ body {
     color: #ff0000;
     cursor: pointer;
     margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.candle-container.glowing {
     animation: flicker 2s infinite;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
 }
 
 .secret-note {
@@ -144,6 +149,14 @@ body {
     border: 1px solid rgba(255, 0, 0, 0.3);
     max-width: 600px;
     margin: 0 auto;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.secret-note:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .note-text {
@@ -167,6 +180,32 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: -1;
+}
+
+.petal {
+    position: absolute;
+    color: #ff0000;
+    font-size: 1.5rem;
+    opacity: 0.7;
+    animation: fall linear infinite;
+    text-shadow: 0 0 5px #ff0000;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
 .final-message {
