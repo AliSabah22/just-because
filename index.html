@@ -6,6 +6,8 @@
     <title>For Cupcake</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -13,11 +15,49 @@
         }
 
         body {
-            font-family: 'Playfair Display', serif;
-            background: #000;
+            font-family: 'Lora', serif;
+            background: linear-gradient(135deg, #000000, #1a0000);
             min-height: 100vh;
             color: #fff;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Petals */
+        .petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .petal {
+            position: absolute;
+            background: rgba(176, 0, 32, 0.3);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: float 15s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* Stage Transitions */
@@ -40,6 +80,127 @@
             opacity: 1;
             pointer-events: all;
             z-index: 2;
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #B00020;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 2px;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #B00020 }
+        }
+
+        /* Heartbeat Effect */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.05); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .heartbeat {
+            animation: heartbeat 1.5s infinite;
+        }
+
+        /* Button Styles */
+        .button {
+            background: transparent;
+            border: 2px solid #B00020;
+            color: #B00020;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .button:hover {
+            background: rgba(176, 0, 32, 0.1);
+            box-shadow: 0 0 20px rgba(176, 0, 32, 0.3);
+            animation: heartbeat 1.5s infinite;
+        }
+
+        .button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #B00020;
+            transition: width 0.3s ease;
+        }
+
+        .button:hover::after {
+            width: 100%;
+        }
+
+        /* Scene Content */
+        .content {
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #B00020;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px #B00020;
+        }
+
+        p {
+            font-family: 'Lora', serif;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .audio-button {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #B00020;
+            color: #B00020;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .audio-button:hover {
+            background: rgba(176, 0, 32, 0.2);
         }
 
         /* Stage 1: Entrance */
@@ -108,8 +269,23 @@
             width: 100%;
             height: 100%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .scene-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #B00020;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px #B00020;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            width: 100%;
         }
 
         .seductive-text {
@@ -120,10 +296,81 @@
             text-shadow: 0 0 10px #B00020, 0 0 20px #B00020, 0 0 30px #B00020;
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeInUp 2s ease-out forwards, sensualPulse 4s ease-in-out infinite;
-            max-width: 80%;
+            animation: fadeInUp 2s ease-out forwards;
+            max-width: 90%;
             line-height: 1.4;
             letter-spacing: 1px;
+            margin: 2rem auto;
+        }
+
+        .love-button {
+            background: transparent;
+            border: 2px solid #B00020;
+            color: #B00020;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.3rem;
+            font-family: 'Cinzel Decorative', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(176, 0, 32, 0.2);
+            margin-top: 2rem;
+        }
+
+        .love-button:hover {
+            background: rgba(176, 0, 32, 0.1);
+            box-shadow: 0 0 25px rgba(176, 0, 32, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .love-message {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2.5rem;
+            border-radius: 5px;
+            border: 1px solid rgba(176, 0, 32, 0.3);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            box-shadow: 0 0 30px rgba(176, 0, 32, 0.1);
+        }
+
+        .love-message:not(.hidden) {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .love-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(176, 0, 32, 0.15) 0%, rgba(0, 0, 0, 0) 70%),
+                radial-gradient(circle at 70% 70%, rgba(176, 0, 32, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 5px;
+            animation: bloodGlow 4s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .love-message.pulse {
+            animation: messagePulse 0.5s ease-out;
+        }
+
+        #messageText {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #B00020;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(176, 0, 32, 0.3);
         }
 
         @keyframes sensualPulse {
@@ -299,47 +546,70 @@
             }
         }
 
-        /* Stage 4: Secret Letters */
-        .letters {
-            background: linear-gradient(135deg, #000, #1a0000);
-        }
-
-        .candle-container {
-            font-size: 3rem;
-            color: #B00020;
+        /* Stage 4: Secret Messages */
+        .secret-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #B00020;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
             cursor: pointer;
-            margin-bottom: 2rem;
+            box-shadow: 0 0 30px rgba(176, 0, 32, 0.2);
             transition: all 0.3s ease;
         }
 
-        .candle-container.glowing {
-            animation: flicker 2s infinite;
-            text-shadow: 0 0 10px #B00020, 0 0 20px #B00020, 0 0 30px #B00020;
+        .secret-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #B00020, transparent, #B00020);
+            border-radius: 10px;
+            z-index: -1;
+            animation: glow 2s linear infinite;
         }
 
-        .secret-note {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 2rem;
-            border-radius: 10px;
-            border: 1px solid rgba(176, 0, 32, 0.3);
-            max-width: 600px;
-            margin: 0 auto;
+        .secret-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(176, 0, 32, 0.3);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-line {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #B00020;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(176, 0, 32, 0.3);
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.5s ease;
         }
 
-        .secret-note:not(.hidden) {
+        .message-line.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .note-text {
-            font-family: 'Cinzel Decorative', serif;
-            color: #B00020;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
+        @keyframes glow {
+            0% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0.3;
+            }
         }
 
         /* Stage 5: Final Seduction */
@@ -474,76 +744,505 @@
                 font-size: 1.5rem;
             }
         }
+
+        .cursor-trails {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .cursor-trail {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            width: 5px;
+            height: 7px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff0033 80%, rgba(176,0,32,0.18) 100%);
+            box-shadow: 0 0 8px 2px #ff0033;
+            opacity: 0.6;
+            transform: translate(-50%, -50%);
+            animation: cursorFade 0.7s cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+        @keyframes cursorFade {
+            0% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            70% {
+                opacity: 0.4;
+                transform: translate(-50%, -50%) scale(1.08);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1.15);
+            }
+        }
+        .cursor-trail.whisper {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: rgba(176, 0, 32, 0.45);
+            text-shadow: 0 0 8px #B00020, 0 0 16px #B00020;
+            transform: translateY(0) scale(0.95) rotate(-8deg);
+            opacity: 0.7;
+            animation: floatUpWhisper 1.2s ease-out forwards;
+            pointer-events: none;
+            white-space: nowrap;
+            left: 0;
+            top: 0;
+        }
+        @keyframes floatUpWhisper {
+            0% {
+                opacity: 0.7;
+                transform: translateY(0) scale(0.95) rotate(-8deg);
+            }
+            60% {
+                opacity: 0.8;
+                transform: translateY(-30px) scale(1.05) rotate(-8deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-60px) scale(1.1) rotate(-8deg);
+            }
+        }
+        .whisper-rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+        }
+        .whisper-rain {
+            position: fixed;
+            top: -2rem;
+            left: 0;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: rgba(176, 0, 32, 0.85);
+            text-shadow: 0 0 18px #B00020, 0 0 36px #B00020, 0 0 48px #B00020, 0 0 64px #B00020;
+            opacity: 0.95;
+            pointer-events: none;
+            z-index: 9998;
+            animation: whisperRainFall 2.8s linear forwards;
+            white-space: nowrap;
+            user-select: none;
+        }
+        @keyframes whisperRainFall {
+            0% {
+                opacity: 0.85;
+                transform: translateY(0) scale(1) rotate(-6deg);
+            }
+            80% {
+                opacity: 0.8;
+                transform: translateY(80vh) scale(1.08) rotate(2deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) scale(1.12) rotate(6deg);
+            }
+        }
+        .ambient-pulses {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .pulse-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(176,0,32,0.22) 0%, rgba(176,0,32,0.09) 70%, transparent 100%);
+            opacity: 0.7;
+            filter: blur(2px);
+            animation: pulseAmbient 4.5s ease-in-out infinite;
+        }
+        @keyframes pulseAmbient {
+            0% {
+                opacity: 0.45;
+                transform: scale(0.95);
+            }
+            22% {
+                opacity: 0.95;
+                transform: scale(1.18);
+            }
+            100% {
+                opacity: 0.45;
+                transform: scale(0.95);
+            }
+        }
+        .disclaimer-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: #B00020;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px #B00020;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+        .typewriter-text {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            color: #B00020;
+            text-align: center;
+            line-height: 2;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: typeIn 3.5s steps(40, end) forwards;
+            white-space: pre-line;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .button.fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 3.5s;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes typeIn {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: 100%;
+                opacity: 1;
+            }
+        }
+        /* Scene 2 Background Glow */
+        #scene2 {
+            background: linear-gradient(135deg, #000000, #1a0000);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #scene2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(176, 0, 32, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            animation: redGlow 4s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        #scene2 .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes redGlow {
+            0% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+        }
+
+        .pulse-button {
+            background: transparent;
+            border: 2px solid #B00020;
+            color: #B00020;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.3rem;
+            font-family: 'Cinzel Decorative', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(176, 0, 32, 0.2);
+            margin-top: 2rem;
+            animation: pulse 2s infinite;
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        .pulse-button:hover {
+            background: rgba(176, 0, 32, 0.1);
+            box-shadow: 0 0 25px rgba(176, 0, 32, 0.4);
+            transform: translateY(-2px);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 15px rgba(176, 0, 32, 0.2);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(176, 0, 32, 0.4);
+                transform: scale(1.05);
+            }
+            100% {
+                box-shadow: 0 0 15px rgba(176, 0, 32, 0.2);
+                transform: scale(1);
+            }
+        }
+
+        /* Candlelit Background */
+        .candlelit-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000, #1a0000);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .candle {
+            position: absolute;
+            width: 40px;
+            height: 80px;
+            background: radial-gradient(circle at center, #B00020 0%, transparent 70%);
+            animation: flicker 2s infinite;
+            opacity: 0.3;
+        }
+
+        .candle:nth-child(1) {
+            top: 20%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .candle:nth-child(2) {
+            top: 40%;
+            left: 60%;
+            animation-delay: 0.5s;
+        }
+
+        .candle:nth-child(3) {
+            top: 70%;
+            left: 30%;
+            animation-delay: 1s;
+        }
+
+        .secret-letter {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .letter-content {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #B00020;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(176, 0, 32, 0.3);
+            opacity: 0;
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            25% {
+                opacity: 0.4;
+                transform: scale(1.05);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            75% {
+                opacity: 0.4;
+                transform: scale(0.95);
+            }
+        }
+
+        /* Final Scene Styles */
+        .rose-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .rose {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at center, #B00020 0%, #000000 70%);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.1);
+            animation: bloom 3s ease-out forwards;
+        }
+
+        .final-text {
+            position: relative;
+            z-index: 2;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #B00020;
+            text-align: center;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(176, 0, 32, 0.3);
+            margin: 2rem auto;
+            max-width: 800px;
+            animation: fadeIn 2s ease-out forwards;
+            animation-delay: 3s;
+        }
+
+        .final-reveal {
+            position: relative;
+            z-index: 2;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #B00020;
+            text-align: center;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(176, 0, 32, 0.3);
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        @keyframes bloom {
+            0% {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="ambient-pulses">
+        <div class="pulse-orb" style="left: 20vw; top: 30vh; width: 180px; height: 180px; animation-delay: 0s;"></div>
+        <div class="pulse-orb" style="left: 70vw; top: 60vh; width: 140px; height: 140px; animation-delay: 1.2s;"></div>
+        <div class="pulse-orb" style="left: 50vw; top: 15vh; width: 120px; height: 120px; animation-delay: 2.1s;"></div>
+        <div class="pulse-orb" style="left: 80vw; top: 35vh; width: 100px; height: 100px; animation-delay: 0.7s;"></div>
+        <div class="pulse-orb" style="left: 10vw; top: 70vh; width: 160px; height: 160px; animation-delay: 1.7s;"></div>
+    </div>
     <div class="floating-embers"></div>
     <div class="cursor-trails"></div>
+    <div class="falling-petals"></div>
+    <div class="whisper-rain-container"></div>
     
-    <!-- Stage 1: Entrance -->
-    <div class="stage entrance active">
-        <div class="entrance-content">
-            <div class="entrance-text">
-                Put your headset on.<br>
-                Click the green button on the top left—go fullscreen.<br>
-                Turn off the lights.<br>
-                And enjoy, Cupcake.
-            </div>
-            <button class="entrance-button">Enter My Obsession</button>
+    <!-- Disclaimer Stage -->
+    <div class="stage active" id="disclaimer">
+        <div class="content">
+            <h1 class="disclaimer-heading" style="opacity: 1;">Disclaimers</h1>
+            <div class="typewriter-text"></div>
+            <button class="button fade-in" id="disclaimerButton" style="opacity: 0;">Enter If You're Ready To Be Mine</button>
         </div>
     </div>
 
     <!-- Stage 2: First Reveal -->
-    <div class="stage reveal">
+    <div class="stage" id="scene1">
         <div class="content">
-            <div class="seductive-text">
-                Cupcake… you shouldn't be here.<br>
-                But I prayed you'd come.
+            <div class="seductive-text" style="opacity: 0;">
+                You shouldn't be here, Imaan.<br>
+                But I've waited long enough…
             </div>
-            <button class="love-button">Keep Going</button>
+            <button class="love-button" style="opacity: 0;">Let Me In</button>
         </div>
     </div>
 
-    <!-- Stage 3: Craving Generator -->
-    <div class="stage craving">
+    <!-- Stage 3: Dark Devotion -->
+    <div class="stage" id="scene2">
         <div class="content">
-            <div class="seductive-text">
-                You're not mine, Imaan… but I've already decided you will be.
+            <div class="seductive-text" style="opacity: 0;">
+                You don't belong to the world anymore.<br>
+                You belong to me.
             </div>
-            <button class="love-button">Touch Me</button>
-            <div class="love-message hidden">
-                <div id="messageText"></div>
+            <button class="pulse-button" style="opacity: 0;">Keep Touching Me</button>
+        </div>
+    </div>
+
+    <!-- Stage 4: Secret Messages -->
+    <div class="stage" id="scene3">
+        <div class="content">
+            <div class="secret-card">
+                <div class="card-content">
+                    <div class="message-line"></div>
+                </div>
+            </div>
+            <button class="pulse-button" style="opacity: 0;">I'm Ready for the Secret</button>
+        </div>
+    </div>
+
+    <!-- Stage 5: Secret Letter -->
+    <div class="stage" id="scene4">
+        <div class="content">
+            <h1 class="scene-heading" style="opacity: 0;">Scene 4 – The Secret Letter</h1>
+            <div class="candlelit-background">
+                <div class="candle"></div>
+                <div class="candle"></div>
+                <div class="candle"></div>
+            </div>
+            <div class="secret-letter">
+                <div class="letter-content"></div>
             </div>
         </div>
     </div>
 
-    <!-- Stage 4: Secret Letters -->
-    <div class="stage letters">
+    <!-- Final Scene -->
+    <div class="stage" id="final">
         <div class="content">
-            <div class="candle-container">🕯️</div>
-            <div class="secret-note hidden">
-                <div class="note-text">
-                    Dear Imaan…<br><br>
-                    Do you feel it too? The pull? Like I was made with just enough madness to want every version of you. I'd walk through hell—if you were at the end, holding out your hand.<br><br>
-                    You're not a fantasy. You're a fixation.
-                </div>
+            <div class="rose-container">
+                <div class="rose"></div>
             </div>
-        </div>
-    </div>
-
-    <!-- Stage 5: Final Seduction -->
-    <div class="stage final">
-        <div class="falling-petals"></div>
-        <div class="content">
-            <div class="final-message">
-                <div class="seductive-text">
-                    Cupcake, this is more than code. It's a shrine.<br>
-                    I don't want to love you softly—I want to ruin you in the most tender way.
-                </div>
-                <button class="final-button">Bleed For Me</button>
-                <div class="final-reveal hidden">
-                    Imaan, I don't need your permission. Just your heart, beating in time with mine.
-                </div>
+            <div class="final-text" style="opacity: 0;">
+                You've seen what I made for you.<br>
+                And still, you're here.<br>
+                That means you want me, too.
+            </div>
+            <button class="pulse-button" style="opacity: 0;">Bleed With Me</button>
+            <div class="final-reveal" style="opacity: 0;">
+                Imaan… you're mine now.<br>
+                And I'll never let you go.
             </div>
         </div>
     </div>
@@ -555,179 +1254,389 @@
     <audio id="finalMusic" src="mixkit-slow-heartbeat-494.wav" loop></audio>
     <audio id="touchWhisper" src="i see you.mp3"></audio>
 
-    <script>
-        // --- Audio elements (placeholders, replace with your own files) ---
-        // (No need to create new Audio() in JS, use <audio> elements in HTML)
+    <div class="audio-controls">
+        <button class="audio-button" onclick="toggleAudio()">🔊</button>
+    </div>
 
-        // --- Stage Management ---
+    <script>
+        // Stage management
         let currentStage = 1;
-        let reasonsGiven = 0;
-        const loveMessages = [
-            "You make me insane in all the ways I crave.",
-            "Every part of you, I want on repeat—especially the ones you hide.",
-            "Even when you're silent… I'm still listening.",
-            "The thought of someone else making you laugh? Unacceptable.",
-            "I'd rather burn beside you than live without you.",
-            "You're a sin I'll keep choosing.",
-            "I don't dream. I obsess."
-        ];
+        let whisperRainInterval;
+
+        function startWhisperRain() {
+            // Clear any existing interval
+            if (whisperRainInterval) {
+                clearInterval(whisperRainInterval);
+            }
+
+            function scheduleNext() {
+                spawnWhisperRain();
+                const next = 1500 + Math.random() * 500;
+                whisperRainInterval = setTimeout(scheduleNext, next);
+            }
+            scheduleNext();
+        }
+
+        function transitionToStage(stageNumber) {
+            // Hide all stages
+            document.querySelectorAll('.stage').forEach(stage => {
+                stage.classList.remove('active');
+                // Reset all elements to invisible
+                const elements = stage.querySelectorAll('.scene-heading, .seductive-text, .love-button, .pulse-button, .message-line, .letter-content, .final-text, .final-reveal');
+                elements.forEach(el => {
+                    if (el) {
+                        el.style.opacity = '0';
+                        el.classList.remove('visible');
+                    }
+                });
+            });
+
+            // Show the target stage
+            const targetStage = document.getElementById(
+                stageNumber === 2 ? 'scene1' : 
+                stageNumber === 3 ? 'scene2' : 
+                stageNumber === 4 ? 'scene3' :
+                stageNumber === 5 ? 'scene4' :
+                stageNumber === 6 ? 'final' :
+                'disclaimer'
+            );
+            
+            if (targetStage) {
+                targetStage.classList.add('active');
+
+                // Handle Scene 1
+                if (stageNumber === 2) {
+                    const text = targetStage.querySelector('.seductive-text');
+                    const button = targetStage.querySelector('.love-button');
+
+                    // Start heartbeat
+                    const heartbeat = document.getElementById('heartbeat');
+                    if (heartbeat) {
+                        heartbeat.volume = 0.2;
+                        heartbeat.loop = true;
+                        heartbeat.play().catch(()=>{});
+                    }
+
+                    // Animate text
+                    if (text) {
+                        setTimeout(() => {
+                            text.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                            text.style.opacity = '1';
+                            text.style.transform = 'translateY(0)';
+                        }, 500);
+                    }
+
+                    // Animate button
+                    if (button) {
+                        setTimeout(() => {
+                            button.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                            button.style.opacity = '1';
+                            button.style.transform = 'translateY(0)';
+                        }, 2000);
+                    }
+                }
+                // Handle Scene 2
+                else if (stageNumber === 3) {
+                    const text = targetStage.querySelector('.seductive-text');
+                    const button = targetStage.querySelector('.pulse-button');
+
+                    // Animate text
+                    if (text) {
+                        setTimeout(() => {
+                            text.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                            text.style.opacity = '1';
+                            text.style.transform = 'translateY(0)';
+                        }, 500);
+                    }
+
+                    // Animate button
+                    if (button) {
+                        setTimeout(() => {
+                            button.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                            button.style.opacity = '1';
+                            button.style.transform = 'translateY(0)';
+                        }, 2000);
+                    }
+                }
+                // Handle Scene 3 (Black Card)
+                else if (stageNumber === 4) {
+                    currentMessageIndex = 0;
+                    clickCount = 0;
+                    const card = targetStage.querySelector('.secret-card');
+                    const messageLine = targetStage.querySelector('.message-line');
+                    
+                    // Reset message line
+                    if (messageLine) {
+                        messageLine.textContent = '';
+                        messageLine.style.opacity = '0';
+                        messageLine.style.transform = 'translateY(20px)';
+                    }
+
+                    // Set up card click
+                    if (card) {
+                        // Remove any existing click listeners
+                        const newCard = card.cloneNode(true);
+                        card.parentNode.replaceChild(newCard, card);
+                        
+                        // Add new click listener to the new card
+                        newCard.addEventListener('click', showNextMessage);
+                    }
+                }
+                // Handle Scene 4 (Secret Letter)
+                else if (stageNumber === 5) {
+                    const heading = targetStage.querySelector('.scene-heading');
+                    const letterContent = targetStage.querySelector('.letter-content');
+                    
+                    // Show heading
+                    if (heading) {
+                        setTimeout(() => {
+                            heading.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                            heading.style.opacity = '1';
+                            heading.style.transform = 'translateY(0)';
+                        }, 500);
+                    }
+
+                    // Type out letter content
+                    if (letterContent) {
+                        const letterText = `Cupcake…
+You're not a dream.
+You're a fever I never want to recover from.
+You crawled into my mind, and I sealed the door behind you.
+Imaan…
+I love you like a storm with no end.
+And I don't want the calm after.
+I want your chaos. Every time.`;
+
+                        let i = 0;
+                        function typeLetter() {
+                            if (i < letterText.length) {
+                                letterContent.innerHTML += letterText.charAt(i) === '\n' ? '<br>' : letterText.charAt(i);
+                                i++;
+                                setTimeout(typeLetter, 50);
+                            }
+                        }
+                        
+                        setTimeout(() => {
+                            letterContent.style.opacity = '1';
+                            typeLetter();
+                        }, 1500);
+                    }
+
+                    // Set timer to transition to final scene after 30 seconds
+                    setTimeout(() => {
+                        transitionToStage(6);
+                    }, 20000);
+                }
+                // Handle Final Scene
+                else if (stageNumber === 6) {
+                    const finalText = targetStage.querySelector('.final-text');
+                    const finalButton = targetStage.querySelector('.pulse-button');
+                    const finalReveal = targetStage.querySelector('.final-reveal');
+
+                    // Start heartbeat
+                    const heartbeat = document.getElementById('heartbeat');
+                    if (heartbeat) {
+                        heartbeat.volume = 0.2;
+                        heartbeat.loop = true;
+                        heartbeat.play().catch(()=>{});
+                        
+                        // Gradually increase volume
+                        let volume = 0.2;
+                        const volumeInterval = setInterval(() => {
+                            if (volume < 0.6) {
+                                volume += 0.05;
+                                heartbeat.volume = volume;
+                            } else {
+                                clearInterval(volumeInterval);
+                            }
+                        }, 1000);
+                    }
+
+                    // Show final text
+                    if (finalText) {
+                        setTimeout(() => {
+                            finalText.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                            finalText.style.opacity = '1';
+                            finalText.style.transform = 'translateY(0)';
+                        }, 3000);
+                    }
+
+                    // Show button
+                    if (finalButton) {
+                        setTimeout(() => {
+                            finalButton.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                            finalButton.style.opacity = '1';
+                            finalButton.style.transform = 'translateY(0)';
+                            finalButton.style.pointerEvents = 'auto';
+                            finalButton.style.zIndex = '10';
+                            
+                            // Set up click handler
+                            finalButton.onclick = function() {
+                                // Hide text and button
+                                finalText.style.opacity = '0';
+                                finalButton.style.opacity = '0';
+                                
+                                // Show final reveal
+                                setTimeout(() => {
+                                    finalReveal.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                                    finalReveal.style.opacity = '1';
+                                    finalReveal.style.transform = 'translateY(0)';
+                                    finalReveal.textContent = "Imaan… you're mine now.\nAnd I'll never let you go.";
+                                }, 1000);
+                            };
+                        }, 5000);
+                    }
+                }
+            }
+            currentStage = stageNumber;
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start whisper rain effect
+            startWhisperRain();
+
+            // Set up disclaimer button
+            const disclaimerButton = document.getElementById('disclaimerButton');
+            if (disclaimerButton) {
+                disclaimerButton.addEventListener('click', () => {
+                    // Hide disclaimer stage
+                    document.getElementById('disclaimer').classList.remove('active');
+                    // Show Scene 1 directly
+                    transitionToStage(2);
+                });
+            }
+
+            // Set up Scene 1 button
+            const scene1Button = document.querySelector('#scene1 .love-button');
+            if (scene1Button) {
+                scene1Button.addEventListener('click', () => {
+                    transitionToStage(3);
+                });
+            }
+
+            // Initialize typing effect for disclaimer
+            const typewriterText = document.querySelector('.typewriter-text');
+            const text = `Cupcake… I built this for you in the dark.
+Put your headset on.
+Click the green fullscreen button.
+Turn off the lights.
+And let me show you how far I'd go for you.`;
+            
+            // Clear any existing content
+            typewriterText.innerHTML = '';
+            
+            let i = 0;
+            function typeWriter() {
+                if (i < text.length) {
+                    typewriterText.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                } else {
+                    // After typing is complete, wait 25 seconds and fade in the button
+                    setTimeout(() => {
+                        disclaimerButton.style.transition = 'opacity 1s ease-in-out';
+                        disclaimerButton.style.opacity = '1';
+                    }, 25000);
+                }
+            }
+            typeWriter();
+
+            // Initialize other effects
+            createFallingPetals();
+        });
+
+        // Whisper Rain Effect
         const whisperWords = [
             "mine", "forever", "obsession", "crave", "need",
             "yours", "darkness", "addiction", "possession", "eternity"
         ];
 
-        // --- Stage Transitions ---
-        function transitionToStage(stageNumber) {
-            document.querySelectorAll('.stage').forEach(stage => stage.classList.remove('active'));
-            const stages = document.querySelectorAll('.stage');
-            if (stages[stageNumber - 1]) {
-                stages[stageNumber - 1].classList.add('active');
+        function spawnWhisperRain() {
+            const container = document.querySelector('.whisper-rain-container');
+            if (!container) return;
+            
+            const count = 4 + Math.floor(Math.random() * 3);
+            for (let i = 0; i < count; i++) {
+                const word = whisperWords[Math.floor(Math.random() * whisperWords.length)];
+                const rain = document.createElement('div');
+                rain.className = 'whisper-rain';
+                rain.textContent = word;
+                rain.style.left = (5 + Math.random() * 85) + 'vw';
+                rain.style.fontSize = (1.1 + Math.random() * 0.7) + 'rem';
+                container.appendChild(rain);
+                setTimeout(() => rain.remove(), 2800);
             }
-            // Audio transitions
-            const heartbeat = document.getElementById('heartbeat');
-            const backgroundMusic = document.getElementById('backgroundMusic');
-            if (stageNumber === 2) {
-                if (heartbeat) { heartbeat.volume = 0.2; heartbeat.loop = true; heartbeat.play().catch(()=>{}); }
-            } else if (stageNumber === 3) {
-                if (backgroundMusic) { backgroundMusic.volume = 0.3; backgroundMusic.loop = true; backgroundMusic.play().catch(()=>{}); }
-                if (heartbeat) { heartbeat.pause(); }
-            } else if (stageNumber === 5) {
-                if (heartbeat) { heartbeat.volume = 0.3; heartbeat.loop = true; heartbeat.play().catch(()=>{}); }
-            }
-            currentStage = stageNumber;
         }
 
-        // --- Typing Animation for Disclaimer ---
-        function typeText(element, text, speed = 35, callback) {
-            element.innerHTML = '';
-            let i = 0;
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                } else if (callback) {
-                    callback();
+        const secretMessages = [
+            "Your voice stays in my head long after you leave.",
+            "I want to memorize your pain, not just your smile.",
+            "You're my favorite secret. And my loudest desire.",
+            "Every breath you take is mine now.",
+            "I'd kill the moon if it ever distracted you from me.",
+            "You're not just a woman. You're the addiction I want to overdose on.",
+            "My fingers were made to trace every inch of you. Slowly."
+        ];
+
+        let currentMessageIndex = 0;
+        let clickCount = 0;
+
+        function showNextMessage() {
+            const messageLine = document.querySelector('.message-line');
+            if (!messageLine) return;
+
+            if (currentMessageIndex < secretMessages.length) {
+                messageLine.textContent = secretMessages[currentMessageIndex];
+                messageLine.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                messageLine.style.opacity = '1';
+                messageLine.style.transform = 'translateY(0)';
+                currentMessageIndex++;
+                clickCount++;
+
+                // Intensify whispers
+                const whisper = document.getElementById('whisper');
+                if (whisper) {
+                    whisper.volume = Math.min(0.3 + (clickCount * 0.05), 0.6);
+                    whisper.play().catch(()=>{});
                 }
-            }
-            type();
-        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Typing effect for intro disclaimer ---
-            const entranceText = document.querySelector('.entrance-text');
-            const disclaimer = `Put your headset on.\nClick the green button on the top left—go fullscreen.\nTurn off the lights.\nAnd enjoy, Cupcake.`;
-            typeText(entranceText, disclaimer, 35, () => {
-                setTimeout(() => {
-                    document.querySelector('.entrance-button').style.opacity = 1;
-                    document.querySelector('.entrance-button').style.animation = 'pulse 2s infinite';
-                }, 600);
-            });
-
-            // --- Stage 1: Entrance Button ---
-            document.querySelector('.entrance-button').addEventListener('click', () => {
-                // Play whisper
-                const whisper = document.getElementById('whisper');
-                if (whisper) { whisper.volume = 0.3; whisper.loop = false; whisper.play().catch(()=>{}); }
-                transitionToStage(2);
-            });
-
-            // --- Stage 2: Keep Going Button ---
-            document.querySelectorAll('.love-button')[0].addEventListener('click', () => {
-                // Play whisper
-                const whisper = document.getElementById('whisper');
-                if (whisper) { whisper.volume = 0.3; whisper.loop = false; whisper.play().catch(()=>{}); }
-                transitionToStage(3);
-            });
-
-            // --- Stage 3: Touch Me Button ---
-            const loveBtn = document.querySelectorAll('.love-button')[1];
-            const loveMsg = document.querySelector('.love-message');
-            const msgText = document.getElementById('messageText');
-            loveBtn.addEventListener('click', () => {
-                // Play whisper
-                const touchWhisper = document.getElementById('touchWhisper');
-                if (touchWhisper) { touchWhisper.volume = 0.3; touchWhisper.loop = false; touchWhisper.currentTime = 0; touchWhisper.play().catch(()=>{}); }
-                // Show random message
-                const random = loveMessages[Math.floor(Math.random() * loveMessages.length)];
-                msgText.textContent = '';
-                loveMsg.classList.remove('hidden');
-                loveMsg.classList.add('pulse');
-                setTimeout(() => loveMsg.classList.remove('pulse'), 500);
-                let i = 0;
-                function typeWriter() {
-                    if (i < random.length) {
-                        msgText.textContent += random.charAt(i);
-                        i++;
-                        setTimeout(typeWriter, 40);
+                // Show final button after 5 clicks
+                if (clickCount >= 5) {
+                    const finalButton = document.querySelector('#scene3 .pulse-button');
+                    if (finalButton) {
+                        setTimeout(() => {
+                            finalButton.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                            finalButton.style.opacity = '1';
+                            finalButton.style.transform = 'translateY(0)';
+                        }, 1000);
                     }
                 }
-                typeWriter();
-                reasonsGiven++;
-                if (reasonsGiven >= 3) {
-                    setTimeout(() => {
-                        document.querySelector('.candle-container').classList.add('glowing');
-                        transitionToStage(4);
-                    }, 2000);
-                }
-            });
-
-            // --- Stage 4: Candle Click ---
-            const candle = document.querySelector('.candle-container');
-            const secretNote = document.querySelector('.secret-note');
-            candle.addEventListener('click', () => {
-                candle.classList.add('glowing');
-                secretNote.classList.remove('hidden');
-                setTimeout(() => transitionToStage(5), 5000);
-            });
-
-            // --- Stage 5: Final Button ---
-            const finalButton = document.querySelector('.final-button');
-            const finalReveal = document.querySelector('.final-reveal');
-            finalButton.addEventListener('click', () => {
-                finalReveal.classList.remove('hidden');
-            });
-
-            // --- Falling Petals ---
-            const petalsContainer = document.querySelector('.falling-petals');
-            if (petalsContainer) createFallingPetals();
-        });
-
-        // --- Cursor Trail Effect (with proper removal) ---
-        document.addEventListener('mousemove', (e) => {
-            const trails = document.querySelector('.cursor-trails');
-            if (!trails) return;
-            const trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.left = e.pageX + 'px';
-            trail.style.top = e.pageY + 'px';
-            trails.appendChild(trail);
-            setTimeout(() => trail.remove(), 1000);
-            // Whisper
-            if (Math.random() < 0.3) {
-                const whisper = document.createElement('div');
-                whisper.className = 'cursor-trail whisper';
-                whisper.textContent = whisperWords[Math.floor(Math.random() * whisperWords.length)];
-                whisper.style.left = e.pageX + 'px';
-                whisper.style.top = e.pageY + 'px';
-                trails.appendChild(whisper);
-                setTimeout(() => whisper.remove(), 1000);
             }
-        });
+        }
 
-        // --- Falling Petals Effect ---
-        function createFallingPetals() {
-            const petalsContainer = document.querySelector('.falling-petals');
-            const petalCount = 20;
-            for (let i = 0; i < petalCount; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                petal.innerHTML = '❦';
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                petal.style.animationDelay = Math.random() * 5 + 's';
-                petalsContainer.appendChild(petal);
-            }
+        // Set up Scene 2 button
+        const scene2Button = document.querySelector('#scene2 .pulse-button');
+        if (scene2Button) {
+            scene2Button.addEventListener('click', () => {
+                transitionToStage(4);
+            });
+        }
+
+        // Set up Scene 3 button
+        const scene3Button = document.querySelector('#scene3 .pulse-button');
+        if (scene3Button) {
+            scene3Button.addEventListener('click', () => {
+                transitionToStage(5);
+            });
+        }
+
+        // Set up Scene 4 button
+        const scene4Button = document.querySelector('#scene4 .pulse-button');
+        if (scene4Button) {
+            scene4Button.addEventListener('click', () => {
+                transitionToStage(6);
+            });
         }
     </script>
 </body>
