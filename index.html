@@ -560,6 +560,24 @@
             transition: all 0.3s ease;
         }
 
+        .card-instruction {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: rgba(176, 0, 32, 0.6);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-style: italic;
+            text-shadow: 0 0 5px rgba(176, 0, 32, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .card-instruction.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .secret-card::before {
             content: '';
             position: absolute;
@@ -1155,6 +1173,86 @@
                 transform: scale(1);
             }
         }
+
+        /* The Vow Scene */
+        .vow-scene {
+            background: linear-gradient(135deg, #000000, #1a0000);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vow-scene::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(176, 0, 32, 0.1) 0%, rgba(0, 0, 0, 0) 50%),
+                radial-gradient(circle at 80% 80%, rgba(176, 0, 32, 0.1) 0%, rgba(0, 0, 0, 0) 50%);
+            animation: seductiveGlow 6s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .vow-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .vow-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #B00020;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(176, 0, 32, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease-out;
+            margin-bottom: 2rem;
+        }
+
+        .vow-subtext {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #B00020;
+            font-style: italic;
+            text-shadow: 0 0 10px rgba(176, 0, 32, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease-out;
+            margin-bottom: 3rem;
+        }
+
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes seductiveGlow {
+            0% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1204,6 +1302,7 @@
     <!-- Stage 4: Secret Messages -->
     <div class="stage" id="scene3">
         <div class="content">
+            <div class="card-instruction">Click the card to reveal my thoughts...</div>
             <div class="secret-card">
                 <div class="card-content">
                     <div class="message-line"></div>
@@ -1243,6 +1342,22 @@
             <div class="final-reveal" style="opacity: 0;">
                 Imaan… you're mine now.<br>
                 And I'll never let you go.
+            </div>
+        </div>
+    </div>
+
+    <!-- The Vow Scene -->
+    <div class="stage" id="vow">
+        <div class="vow-scene">
+            <div class="vow-content">
+                <p class="vow-text">
+                    I don't love you in parts, Cupcake.<br>
+                    I crave you. In chaos. In silence. In madness. In forever.<br>
+                    This world could burn, and I'd still look for you in the ashes.<br>
+                    You are my first thought. My last sin. My only obsession.<br>
+                    And I'll never let you go.
+                </p>
+                <p class="vow-subtext">— Yours. In darkness, always.</p>
             </div>
         </div>
     </div>
@@ -1364,6 +1479,14 @@
                     clickCount = 0;
                     const card = targetStage.querySelector('.secret-card');
                     const messageLine = targetStage.querySelector('.message-line');
+                    const cardInstruction = targetStage.querySelector('.card-instruction');
+                    
+                    // Show card instruction
+                    if (cardInstruction) {
+                        setTimeout(() => {
+                            cardInstruction.classList.add('visible');
+                        }, 1000);
+                    }
                     
                     // Reset message line
                     if (messageLine) {
@@ -1467,11 +1590,9 @@ I want your chaos. Every time.`;
                             finalButton.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
                             finalButton.style.opacity = '1';
                             finalButton.style.transform = 'translateY(0)';
-                            finalButton.style.pointerEvents = 'auto';
-                            finalButton.style.zIndex = '10';
                             
-                            // Set up click handler
-                            finalButton.onclick = function() {
+                            // Set up button click
+                            finalButton.addEventListener('click', () => {
                                 // Hide text and button
                                 finalText.style.opacity = '0';
                                 finalButton.style.opacity = '0';
@@ -1482,8 +1603,28 @@ I want your chaos. Every time.`;
                                     finalReveal.style.opacity = '1';
                                     finalReveal.style.transform = 'translateY(0)';
                                     finalReveal.textContent = "Imaan… you're mine now.\nAnd I'll never let you go.";
+
+                                    // Add continue button after final reveal
+                                    setTimeout(() => {
+                                        const continueButton = document.createElement('button');
+                                        continueButton.className = 'pulse-button';
+                                        continueButton.textContent = 'Continue...';
+                                        continueButton.style.opacity = '0';
+                                        continueButton.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                                        finalReveal.parentNode.appendChild(continueButton);
+
+                                        setTimeout(() => {
+                                            continueButton.style.opacity = '1';
+                                            continueButton.style.transform = 'translateY(0)';
+                                        }, 1000);
+
+                                        // Set up continue button click
+                                        continueButton.addEventListener('click', () => {
+                                            transitionToVow();
+                                        });
+                                    }, 2000);
                                 }, 1000);
-                            };
+                            });
                         }, 5000);
                     }
                 }
@@ -1648,6 +1789,36 @@ And let me show you how far I'd go for you.`;
             scene4Button.addEventListener('click', () => {
                 transitionToStage(6);
             });
+        }
+
+        // Add transition to vow scene
+        function transitionToVow() {
+            // Hide all stages
+            document.querySelectorAll('.stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+
+            // Show vow scene
+            const vowScene = document.getElementById('vow');
+            if (vowScene) {
+                vowScene.classList.add('active');
+
+                // Animate elements in sequence
+                const vowText = vowScene.querySelector('.vow-text');
+                const vowSubtext = vowScene.querySelector('.vow-subtext');
+
+                if (vowText) {
+                    setTimeout(() => {
+                        vowText.classList.add('fade-in');
+                    }, 500);
+                }
+
+                if (vowSubtext) {
+                    setTimeout(() => {
+                        vowSubtext.classList.add('fade-in');
+                    }, 2000);
+                }
+            }
         }
     </script>
 </body>
