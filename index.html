@@ -1500,6 +1500,14 @@ I want your chaos. Every time.`;
             const disclaimerButton = document.getElementById('disclaimerButton');
             if (disclaimerButton) {
                 disclaimerButton.addEventListener('click', () => {
+                    // Start playing "Earned It"
+                    const earnedIt = document.getElementById('backgroundMusic');
+                    if (earnedIt) {
+                        earnedIt.volume = 0.3;
+                        earnedIt.loop = true;
+                        earnedIt.play().catch(()=>{});
+                    }
+                    
                     // Hide disclaimer stage
                     document.getElementById('disclaimer').classList.remove('active');
                     // Show Scene 1 directly
@@ -1594,11 +1602,14 @@ And let me show you how far I'd go for you.`;
                 currentMessageIndex++;
                 clickCount++;
 
-                // Intensify whispers
-                const whisper = document.getElementById('whisper');
-                if (whisper) {
-                    whisper.volume = Math.min(0.3 + (clickCount * 0.05), 0.6);
-                    whisper.play().catch(()=>{});
+                // Play whisper sound only on first click
+                if (clickCount === 1) {
+                    const whisper = document.getElementById('whisper');
+                    if (whisper) {
+                        whisper.volume = 0.3;
+                        whisper.currentTime = 0; // Reset to start
+                        whisper.play().catch(()=>{});
+                    }
                 }
 
                 // Show final button after 5 clicks
